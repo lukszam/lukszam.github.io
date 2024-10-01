@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Data Dashboard</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Live Data Dashboard</h1>
+    <div id="data-table"></div>
+
+    <script>
+        async function fetchData() {
+            try {
+                const response = await fetch('http://127.0.0.1:5000');  // Replace with your Flask server URL
+                const data = await response.json();
+
+                let table = '<table><tr>';
+                // Add table headers
+                for (let key in data[0]) {
+                    table += `<th>${key}</th>`;
+                }
+                table += '</tr>';
+                // Add table rows
+                data.forEach(row => {
+                    table += '<tr>';
+                    for (let key in row) {
+                        table += `<td>${row[key]}</td>`;
+                    }
+                    table += '</tr>';
+                });
+                table += '</table>';
+                document.getElementById('data-table').innerHTML = table;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Fetch data when the page loads
+        fetchData();
+
+        // Refresh data every 60 seconds
+        setInterval(fetchData, 6000000);
+    </script>
+</body>
+
+</html>
