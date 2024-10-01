@@ -31,7 +31,7 @@
     <script>
         async function fetchData() {
             try {
-                const response = await fetch('http://127.0.0.1:5000');  // Replace with your Flask server URL
+                const response = await fetch('data.json');  // Load the local JSON file
                 const data = await response.json();
 
                 let table = '<table><tr>';
@@ -57,9 +57,6 @@
 
         // Fetch data when the page loads
         fetchData();
-
-        // Refresh data every 60 seconds
-        setInterval(fetchData, 60000);
     </script>
 </body>
 
