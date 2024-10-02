@@ -4,8 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Data Dashboard</title>
+    <title>LVLM Tracker</title>
     <style>
+        .responsive-iframe-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            /* 16:9 aspect ratio (change as needed) */
+        }
+
+        .responsive-iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -27,7 +44,17 @@
 <body>
     <h1>LVLM Tracker</h1>
 
-    <iframe src="scatter_plot.html" width="600" height="400" style="border:none;"></iframe>
+    <p>Welcome to the ultimate resource for tracking the performance of Large Vision Language Models (LVLMs) across a
+        variety of common benchmarks. This webpage is dedicated to providing comprehensive, up-to-date performance
+        metrics, comparisons, and analyses of the latest and most prominent LVLMs in the field. Updated regularly.</p>
+
+    <p><a href="https://mmmu-benchmark.github.io/">1. MMMU Benchmark</a></p>
+
+
+    <!-- <iframe src="scatter_plot.html" width="600" height="400" style="border:none;"></iframe> -->
+    <div class="responsive-iframe-container">
+        <iframe src="scatter_plot.html"></iframe>
+    </div>
 
     <div id="data-table"></div>
 
