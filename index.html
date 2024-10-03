@@ -24,7 +24,7 @@
         }
 
         table {
-            width: 100%;
+            width: 80%;
             border-collapse: collapse;
         }
 
@@ -42,26 +42,30 @@
 </head>
 
 <body>
-    <h1>LVLM Tracker</h1>
+    <h1>LVLM Performance Tracker</h1>
 
     <p>Welcome to the ultimate resource for tracking the performance of Large Vision Language Models (LVLMs) across a
-        variety of common benchmarks. This webpage is dedicated to providing comprehensive, up-to-date performance
-        metrics, comparisons, and analyses of the latest and most prominent LVLMs in the field. Updated regularly.</p>
+        variety of benchmarks, focused on scientific content. The emphasis is on showcasing trends over time. Updated
+        regularly.</p>
 
-    <p><a href="https://mmmu-benchmark.github.io/">1. MMMU Benchmark</a></p>
+    <ul>
+        <li><a href="#mmmu">1. MMMU Benchmark</a></li>
+        <li><a href="#mathvista">2. MathVista Benchmark</a></li>
+    </ul>
 
 
-    <!-- <iframe src="scatter_plot.html" width="600" height="400" style="border:none;"></iframe> -->
-    <div class="responsive-iframe-container">
-        <iframe src="scatter_plot.html"></iframe>
-    </div>
+    <h3 id="mmmu"><a href="https://mmmu-benchmark.github.io/">1. MMMU Benchmark</a></h2>
 
-    <div id="data-table"></div>
+        <div class="responsive-iframe-container">
+            <iframe src="scatter_plot_mmmu.html"></iframe>
+        </div>
+
+        <!-- <div id="data-table"></div>
 
     <script>
         async function fetchData() {
             try {
-                const response = await fetch('data.json');  // Load the local JSON file
+                const response = await fetch('data_mmmu.json');  // Load the local JSON file
                 const data = await response.json();
 
                 let table = '<table><tr>';
@@ -87,7 +91,14 @@
 
         // Fetch data when the page loads
         fetchData();
-    </script>
+    </script> -->
+        <h3 id="mathvista"><a href="https://mathvista.github.io/">2. MathVista Benchmark</a></h2>
+            <div class="responsive-iframe-container">
+                <iframe src="scatter_plot_mathvista.html"></iframe>
+            </div>
+
+
+
 </body>
 
 </html>

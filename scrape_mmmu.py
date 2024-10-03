@@ -90,10 +90,10 @@ data = df.to_json(orient='records')
 
 data_json =  json.loads(data)
 
-with open("data.json", 'w') as file:
+with open("data_mmmu.json", 'w') as file:
     json.dump(data_json, file, indent=4)
 
-df = pd.read_json('data.json')
+df = pd.read_json('data_mmmu.json')
 
 df['Accuracy'] = df['Accuracy'].str.rstrip('*')
 df = df[df['Accuracy'] != '-']
@@ -150,7 +150,7 @@ fig.add_trace(go.Scatter(
     name='Human Experts'
 ))
 # Save the plot as an HTML file
-fig.write_html('scatter_plot.html')
+fig.write_html('scatter_plot_mmmu.html')
 
     # return jsonify(data)
 
