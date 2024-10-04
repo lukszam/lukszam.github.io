@@ -45,57 +45,32 @@
     <h1>LVLM Performance Tracker</h1>
 
     <p>Welcome to the ultimate resource for tracking the performance of Large Vision Language Models (LVLMs) across a
-        variety of benchmarks, focused on scientific content. The emphasis is on showcasing trends over time. Updated
-        regularly.</p>
+        set of benchmarks, focused on scientific content. The emphasis is on showcasing trends over time. Updated
+        regularly by automated script.</p>
 
     <ul>
-        <li><a href="#mmmu">1. MMMU Benchmark</a></li>
-        <li><a href="#mathvista">2. MathVista Benchmark</a></li>
+        <li><a href="#mmmu1">1. MMMU-val Benchmark</a></li>
+        <li><a href="#mmmu2">2. MMMU-Pro Benchmark</a></li>
+        <li><a href="#mathvista">3. MathVista Benchmark</a></li>
     </ul>
 
 
-    <h3 id="mmmu"><a href="https://mmmu-benchmark.github.io/">1. MMMU Benchmark</a></h2>
+    <h3 id="mmmu1"><a href="https://mmmu-benchmark.github.io/">1. MMMU-val Benchmark</a></h3>
 
-        <div class="responsive-iframe-container">
-            <iframe src="scatter_plot_mmmu.html"></iframe>
-        </div>
+    <div class="responsive-iframe-container">
+        <iframe src="scatter_plot_mmmu_val.html"></iframe>
+    </div>
 
-        <!-- <div id="data-table"></div>
+    <h3 id="mmmu1"><a href="https://mmmu-benchmark.github.io/">2. MMMU-Pro Benchmark</a></h3>
 
-    <script>
-        async function fetchData() {
-            try {
-                const response = await fetch('data_mmmu.json');  // Load the local JSON file
-                const data = await response.json();
+    <div class="responsive-iframe-container">
+        <iframe src="scatter_plot_mmmu_pro.html"></iframe>
+    </div>
 
-                let table = '<table><tr>';
-                // Add table headers
-                for (let key in data[0]) {
-                    table += `<th>${key}</th>`;
-                }
-                table += '</tr>';
-                // Add table rows
-                data.forEach(row => {
-                    table += '<tr>';
-                    for (let key in row) {
-                        table += `<td>${row[key]}</td>`;
-                    }
-                    table += '</tr>';
-                });
-                table += '</table>';
-                document.getElementById('data-table').innerHTML = table;
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        // Fetch data when the page loads
-        fetchData();
-    </script> -->
-        <h3 id="mathvista"><a href="https://mathvista.github.io/">2. MathVista Benchmark</a></h2>
-            <div class="responsive-iframe-container">
-                <iframe src="scatter_plot_mathvista.html"></iframe>
-            </div>
+    <h3 id="mathvista"><a href="https://mathvista.github.io/">3. MathVista Benchmark</a></h3>
+    <div class="responsive-iframe-container">
+        <iframe src="scatter_plot_mathvista.html"></iframe>
+    </div>
 
 
 

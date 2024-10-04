@@ -88,8 +88,6 @@ data_json =  json.loads(data)
 with open("data_mathvista.json", 'w') as file:
     json.dump(data_json, file, indent=4)
 
-df = pd.read_json('data_mathvista.json')
-
 df['ALL'] = pd.to_numeric(df['ALL'])
 df.rename(columns={'ALL': 'Accuracy'}, inplace=True)
 

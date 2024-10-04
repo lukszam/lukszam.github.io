@@ -9,6 +9,67 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.linear_model import LinearRegression
+
+
+def plot_mmmu(df_mmmu, bench_type, column_name, human_eval=False):
+    df_mmmu.loc[:, column_name] = df_mmmu[column_name].str.rstrip('*')
+    df_mmmu = df_mmmu[df_mmmu[column_name] != '-']
+    df_mmmu.loc[:, column_name] = pd.to_numeric(df_mmmu[column_name])
+
+    # Convert date to numerical format for regression
+    df_mmmu.loc[:, 'Date'] = pd.to_datetime(df_mmmu['Date'], errors='coerce')
+    # df_mmmu.loc[:, 'date_num'] = (df_mmmu['Date'] - df_mmmu['Date'].min()).dt.days
+    # Convert to ordinal
+    df_mmmu.loc[:,'date_num'] = df_mmmu['Date'].apply(lambda x: x.toordinal() if pd.notnull(x) else None)
+
+
+    # Fit linear regression model
+    X = df_mmmu['date_num'].values.reshape(-1, 1)
+    y_lr = df_mmmu[column_name].values
+    model = LinearRegression()
+    model.fit(X, y_lr)
+    df_mmmu.loc[:, 'Trend'] = model.predict(X)
+
+    # Create the scatter plot
+    fig = px.scatter(df_mmmu, x='Date', y=column_name, hover_name='Name', color='Type', title=f'Performance on MMMU ({bench_type}) benchmark', hover_data={'Size': True})
+
+    # Add the trend line
+    fig.add_trace(go.Scatter(
+        x=df_mmmu['Date'],
+        y=df_mmmu['Trend'],
+        mode='lines',
+        name='Trend Line',
+        line=dict(color="rgba(0, 0, 255, 0.3)", width=10)
+    ))
+
+    # # Control y-axis range
+    fig.update_yaxes(range=[0.0, 100.0], autorange=False)
+
+    if human_eval:
+        # Add horizontal line at y = 0.9 (threshold)
+        fig.add_shape(
+            type="rect",
+            x0=df['Date'].min(),  # Start of the line on the x-axis
+            y0=76.1,               # y value where the line starts
+            x1=df['Date'].max(),  # End of the line on the x-axis
+            y1=88.6,              # y value where the line ends (same as y0 for horizontal line)
+            fillcolor="rgba(255, 0, 0, 0.2)",
+            line=dict(
+                width=0
+            ),
+        )
+
+        # Add dummy trace for the rectangle to appear in the legend
+        fig.add_trace(go.Scatter(
+            x=[None], y=[None],
+            mode='markers',
+            marker=dict(size=10, color='rgba(255, 0, 0, 0.2)', symbol='square'),
+            showlegend=True,
+            name='Human Experts'
+        ))
+    # Save the plot as an HTML file
+    fig.write_html(f'scatter_plot_mmmu_{bench_type}.html')
+
 # from lxml import html
 # from flask import Flask, jsonify
 
@@ -93,64 +154,8 @@ data_json =  json.loads(data)
 with open("data_mmmu.json", 'w') as file:
     json.dump(data_json, file, indent=4)
 
-df = pd.read_json('data_mmmu.json')
-
-df['Accuracy'] = df['Accuracy'].str.rstrip('*')
-df = df[df['Accuracy'] != '-']
-df['Accuracy'] = pd.to_numeric(df['Accuracy'])
-
-# Convert date to numerical format for regression
-df['date_num'] = (df['Date'] - df['Date'].min()).dt.days
-
-# Fit linear regression model
-X = df['date_num'].values.reshape(-1, 1)
-y = df['Accuracy'].values
-model = LinearRegression()
-model.fit(X, y)
-df['Trend'] = model.predict(X)
-
-# Assuming you have a DataFrame named df with columns 'Date' and 'Overall_2'
-# Ensure 'Date' is in datetime format
-df['Date'] = pd.to_datetime(df['Date'])
-
-# Create the scatter plot
-fig = px.scatter(df, x='Date', y='Accuracy', hover_name='Name', color='Type', title='Performance on MMMU benchmark', hover_data={'Size': True})
-
-# Add the trend line
-fig.add_trace(go.Scatter(
-    x=df['Date'],
-    y=df['Trend'],
-    mode='lines',
-    name='Trend Line',
-    line=dict(color="rgba(0, 0, 255, 0.3)", width=10)
-))
-
-# # Control y-axis range
-fig.update_yaxes(range=[0.0, 100.0], autorange=False)
-
-# Add horizontal line at y = 0.9 (threshold)
-fig.add_shape(
-    type="rect",
-    x0=df['Date'].min(),  # Start of the line on the x-axis
-    y0=76.1,               # y value where the line starts
-    x1=df['Date'].max(),  # End of the line on the x-axis
-    y1=88.6,              # y value where the line ends (same as y0 for horizontal line)
-    fillcolor="rgba(255, 0, 0, 0.2)",
-    line=dict(
-        width=0
-    ),
-)
-
-# Add dummy trace for the rectangle to appear in the legend
-fig.add_trace(go.Scatter(
-    x=[None], y=[None],
-    mode='markers',
-    marker=dict(size=10, color='rgba(255, 0, 0, 0.2)', symbol='square'),
-    showlegend=True,
-    name='Human Experts'
-))
-# Save the plot as an HTML file
-fig.write_html('scatter_plot_mmmu.html')
+plot_mmmu(df.copy(), "Val", "Accuracy", True)
+plot_mmmu(df.copy(), "Pro", "Overall", False)
 
     # return jsonify(data)
 
